@@ -2,6 +2,10 @@
 
 ## Criando uma APP de cadastro em memória
 
+Projeto desenvolvido durante o bootcamp TakeBlip Fullstack Developer #2 na plataforma DIO com o intuito de aplicar conceitos de POO implementando-os utilizando .NET.
+
+## Créditos da versão original:
+
 [Slides](dio-dotnet-poo-lab-2.pdf)
 
 ## Contato
