@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Reflection;
 using Dio.CadastroMidia.Classes;
+using Dio.CadastroMidia.Classes.Util;
 using Dio.CadastroMidia.Enum;
 
 namespace Dio.CadastroMidia
 {
     class Program
     {
-        static SerieRepositorio repositorio = new SerieRepositorio();
+        static MidiaRepositorio<Serie> repositorio = new MidiaRepositorio<Serie>();
         static void Main(string[] args)
         {
             string opcaoUsuario = ObterOpcaoUsuario();
@@ -33,6 +35,8 @@ namespace Dio.CadastroMidia
 					case "C":
 						Console.Clear();
 						break;
+					case "X":
+						break;
 
 					default:
 						throw new ArgumentOutOfRangeException();
@@ -45,56 +49,7 @@ namespace Dio.CadastroMidia
 			Console.ReadLine();
         }
 
-        private static void ExcluirSerie()
-		{
-			Console.Write("Digite o id da série: ");
-			int indiceSerie = int.Parse(Console.ReadLine());
-
-			repositorio.Exclui(indiceSerie);
-		}
-
-        private static void VisualizarSerie()
-		{
-			Console.Write("Digite o id da série: ");
-			int indiceSerie = int.Parse(Console.ReadLine());
-
-			var serie = repositorio.RetornaPorId(indiceSerie);
-
-			Console.WriteLine(serie);
-		}
-
-        private static void AtualizarSerie()
-		{
-			Console.Write("Digite o id da série: ");
-			int indiceSerie = int.Parse(Console.ReadLine());
-
-			// https://docs.microsoft.com/pt-br/dotnet/api/system.enum.getvalues?view=netcore-3.1
-			// https://docs.microsoft.com/pt-br/dotnet/api/system.enum.getname?view=netcore-3.1
-			foreach (int i in System.Enum.GetValues(typeof(Genero)))
-			{
-				Console.WriteLine("{0}-{1}", i, System.Enum.GetName(typeof(Genero), i));
-			}
-			Console.Write("Digite o gênero entre as opções acima: ");
-			int entradaGenero = int.Parse(Console.ReadLine());
-
-			Console.Write("Digite o Título da Série: ");
-			string entradaTitulo = Console.ReadLine();
-
-			Console.Write("Digite o Ano de Início da Série: ");
-			int entradaAno = int.Parse(Console.ReadLine());
-
-			Console.Write("Digite a Descrição da Série: ");
-			string entradaDescricao = Console.ReadLine();
-
-			Serie atualizaSerie = new Serie(id: indiceSerie,
-										genero: (Genero)entradaGenero,
-										titulo: entradaTitulo,
-										ano: entradaAno,
-										descricao: entradaDescricao);
-
-			repositorio.Substitui(indiceSerie, atualizaSerie);
-		}
-        private static void ListarSeries()
+		private static void ListarSeries()
 		{
 			Console.WriteLine("Listar séries");
 
@@ -117,34 +72,65 @@ namespace Dio.CadastroMidia
         private static void InserirSerie()
 		{
 			Console.WriteLine("Inserir nova série");
-
-			// https://docs.microsoft.com/pt-br/dotnet/api/system.enum.getvalues?view=netcore-3.1
-			// https://docs.microsoft.com/pt-br/dotnet/api/system.enum.getname?view=netcore-3.1
-			foreach (int i in System.Enum.GetValues(typeof(Genero)))
-			{
-				Console.WriteLine("{0}-{1}", i, System.Enum.GetName(typeof(Genero), i));
-			}
-			Console.Write("Digite o gênero entre as opções acima: ");
-			int entradaGenero = int.Parse(Console.ReadLine());
-
-			Console.Write("Digite o Título da Série: ");
-			string entradaTitulo = Console.ReadLine();
-
-			Console.Write("Digite o Ano de Início da Série: ");
-			int entradaAno = int.Parse(Console.ReadLine());
-
-			Console.Write("Digite a Descrição da Série: ");
-			string entradaDescricao = Console.ReadLine();
-
-			Serie novaSerie = new Serie(id: repositorio.ProximoId(),
-										genero: (Genero)entradaGenero,
-										titulo: entradaTitulo,
-										ano: entradaAno,
-										descricao: entradaDescricao);
-
-			repositorio.Insere(novaSerie);
+			
+			repositorio.Insere(NovaSerie(-1));
 		}
 
+		private static void AtualizarSerie()
+		{
+			Console.Write("Digite o id da série: ");
+			int indiceSerie;
+			int.TryParse(Console.ReadLine(), out indiceSerie);
+			Serie serie = repositorio.RetornaPorId(indiceSerie);
+			PropertyInfo[] atts = serie.GetType().GetProperties(BindingFlags.NonPublic|BindingFlags.Instance);
+			atts = atts.SubArray(0, atts.Length - 2);
+
+			int i = 0;
+			foreach (var att in atts)
+			{
+				Console.WriteLine("{0} - {1}: {2}", i++, att.Name, att.GetValue(serie, null));
+			}
+			Console.WriteLine("T - TODOS OS CAMPOS");
+			
+			Console.Write("Informe qual campo deseja atualizar entre as opções acima: ");
+			
+			string entrada = Console.ReadLine();
+			
+			if (entrada == "T")
+			{
+				repositorio.Substitui(indiceSerie, NovaSerie(indiceSerie));
+				return;
+			}
+
+			int indiceAtributo;
+			int.TryParse(entrada, out indiceAtributo);
+
+			Console.Write("Informe o novo valor desejado: ");
+			string valor = Console.ReadLine();
+			repositorio.Atualiza(indiceSerie, atts[indiceAtributo], valor, serie);
+		}
+
+        private static void ExcluirSerie()
+		{
+			Console.Write("Digite o id da série: ");
+			int indiceSerie;
+			int.TryParse(Console.ReadLine(), out indiceSerie);
+
+			repositorio.Exclui(indiceSerie);
+		}
+
+        private static void VisualizarSerie()
+		{
+			Console.Write("Digite o id da série: ");
+			int indiceSerie;
+			int.TryParse(Console.ReadLine(), out indiceSerie);
+
+			var serie = repositorio.RetornaPorId(indiceSerie);
+
+			Console.WriteLine(serie);
+		}
+
+		// Util
         private static string ObterOpcaoUsuario()
 		{
 			Console.WriteLine();
@@ -163,6 +149,45 @@ namespace Dio.CadastroMidia
 			string opcaoUsuario = Console.ReadLine().ToUpper();
 			Console.WriteLine();
 			return opcaoUsuario;
+		}
+
+		private static Serie NovaSerie(int id) // Id == -1 -> ProximoId()
+		{
+			// https://docs.microsoft.com/pt-br/dotnet/api/system.enum.getvalues?view=netcore-3.1
+			// https://docs.microsoft.com/pt-br/dotnet/api/system.enum.getname?view=netcore-3.1
+			foreach (int i in System.Enum.GetValues(typeof(Genero)))
+			{
+				Console.WriteLine("{0}-{1}", i, System.Enum.GetName(typeof(Genero), i));
+			}
+			Console.Write("Digite o gênero entre as opções acima: ");
+			int entradaGenero;
+			int.TryParse(Console.ReadLine(), out entradaGenero);
+
+			Console.Write("Digite o Título da Série: ");
+			string entradaTitulo = Console.ReadLine();
+
+			Console.Write("Digite o Ano de Início da Série: ");
+			int entradaAno;
+			int.TryParse(Console.ReadLine(), out entradaAno);
+
+			Console.Write("Digite a Descrição da Série: ");
+			string entradaDescricao = Console.ReadLine();
+
+			Console.Write("Digite o Número de Episódios: ");
+			int entradaEpisodios;
+			int.TryParse(Console.ReadLine(), out entradaEpisodios);
+
+			Console.Write("Digite o Número de Temporadas: ");
+			int entradaTemporadas;
+			int.TryParse(Console.ReadLine(), out entradaTemporadas);
+
+			return new Serie(id: (id == -1) ? repositorio.ProximoId() : id,
+							 genero: (Genero) entradaGenero,
+							 titulo: entradaTitulo,
+							 ano: entradaAno,
+							 descricao: entradaDescricao,
+							 episodios: entradaEpisodios,
+							 temporadas: entradaTemporadas);
 		}
     }
 }

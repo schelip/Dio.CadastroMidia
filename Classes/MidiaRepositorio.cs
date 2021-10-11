@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Dio.CadastroMidia.Interfaces;
 
 namespace Dio.CadastroMidia.Classes
 {
-    public abstract class MidiaRepositorioBase<T> where T: MidiaEntidadeBase
+    public class MidiaRepositorio<T> : IMidiaRepositorio<T> where T: MidiaEntidadeBase
     {
         private List<T> lista = new List<T>();
 		public void Substitui(int id, T objeto)
@@ -34,6 +36,18 @@ namespace Dio.CadastroMidia.Classes
 		public T RetornaPorId(int id)
 		{
 			return lista[id];
+		}
+
+		public void Atualiza(int id, PropertyInfo att, object valor, MidiaEntidadeBase midia)
+		{
+			try
+			{
+				att.SetValue(midia, valor);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+			}
 		}
     }
 }

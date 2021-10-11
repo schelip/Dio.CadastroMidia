@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Dio.CadastroMidia.Enum;
 
 namespace Dio.CadastroMidia.Classes
@@ -26,11 +27,11 @@ namespace Dio.CadastroMidia.Classes
 		{
 			// Environment.NewLine https://docs.microsoft.com/en-us/dotnet/api/system.environment.newline?view=netcore-3.1
             string retorno = "";
-            retorno += "Gênero: " + this.Genero + Environment.NewLine;
+            retorno += "Excluido: " + this.Excluido + Environment.NewLine;
+            retorno += "Gênero: " + this.Genero.ToString() + Environment.NewLine;
             retorno += "Titulo: " + this.Titulo + Environment.NewLine;
             retorno += "Descrição: " + this.Descricao + Environment.NewLine;
             retorno += "Ano de Início: " + this.Ano + Environment.NewLine;
-            retorno += "Excluido: " + this.Excluido;
 			return retorno;
 		}
 
