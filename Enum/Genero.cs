@@ -1,4 +1,4 @@
-namespace DIO.Series
+namespace Dio.CadastroMidia.Enum
 {
 	public enum Genero
 	{

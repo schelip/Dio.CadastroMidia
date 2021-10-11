@@ -1,20 +1,20 @@
 {
   "runtimeTarget": {
-    "name": ".NETCoreApp,Version=v3.1",
+    "name": ".NETCoreApp,Version=v5.0",
     "signature": ""
   },
   "compilationOptions": {},
   "targets": {
-    ".NETCoreApp,Version=v3.1": {
-      "DIO.Series/1.0.0": {
+    ".NETCoreApp,Version=v5.0": {
+      "Dio.CadastroMidia/1.0.0": {
         "runtime": {
-          "DIO.Series.dll": {}
+          "Dio.CadastroMidia.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "DIO.Series/1.0.0": {
+    "Dio.CadastroMidia/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

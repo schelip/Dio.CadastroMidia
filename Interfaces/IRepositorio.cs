@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace DIO.Series.Interfaces
+namespace Dio.CadastroMidia.Interfaces
 {
     public interface IRepositorio<T>
     {
@@ -8,7 +8,7 @@ namespace DIO.Series.Interfaces
         T RetornaPorId(int id);        
         void Insere(T entidade);        
         void Exclui(int id);        
-        void Atualiza(int id, T entidade);
+        void Substitui(int id, T entidade);
         int ProximoId();
     }
 }

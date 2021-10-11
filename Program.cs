@@ -1,6 +1,8 @@
 ﻿using System;
+using Dio.CadastroMidia.Classes;
+using Dio.CadastroMidia.Enum;
 
-namespace DIO.Series
+namespace Dio.CadastroMidia
 {
     class Program
     {
@@ -68,9 +70,9 @@ namespace DIO.Series
 
 			// https://docs.microsoft.com/pt-br/dotnet/api/system.enum.getvalues?view=netcore-3.1
 			// https://docs.microsoft.com/pt-br/dotnet/api/system.enum.getname?view=netcore-3.1
-			foreach (int i in Enum.GetValues(typeof(Genero)))
+			foreach (int i in System.Enum.GetValues(typeof(Genero)))
 			{
-				Console.WriteLine("{0}-{1}", i, Enum.GetName(typeof(Genero), i));
+				Console.WriteLine("{0}-{1}", i, System.Enum.GetName(typeof(Genero), i));
 			}
 			Console.Write("Digite o gênero entre as opções acima: ");
 			int entradaGenero = int.Parse(Console.ReadLine());
@@ -90,7 +92,7 @@ namespace DIO.Series
 										ano: entradaAno,
 										descricao: entradaDescricao);
 
-			repositorio.Atualiza(indiceSerie, atualizaSerie);
+			repositorio.Substitui(indiceSerie, atualizaSerie);
 		}
         private static void ListarSeries()
 		{
@@ -118,9 +120,9 @@ namespace DIO.Series
 
 			// https://docs.microsoft.com/pt-br/dotnet/api/system.enum.getvalues?view=netcore-3.1
 			// https://docs.microsoft.com/pt-br/dotnet/api/system.enum.getname?view=netcore-3.1
-			foreach (int i in Enum.GetValues(typeof(Genero)))
+			foreach (int i in System.Enum.GetValues(typeof(Genero)))
 			{
-				Console.WriteLine("{0}-{1}", i, Enum.GetName(typeof(Genero), i));
+				Console.WriteLine("{0}-{1}", i, System.Enum.GetName(typeof(Genero), i));
 			}
 			Console.Write("Digite o gênero entre as opções acima: ");
 			int entradaGenero = int.Parse(Console.ReadLine());
