@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Dio.CadastroMidia.Interfaces;
 
-namespace Dio.CadastroMidia.Classes
+namespace Dio.CadastroMidia.DataRepository
 {
     public class MidiaRepositorio<T> : IMidiaRepositorio<T> where T: MidiaEntidadeBase
     {

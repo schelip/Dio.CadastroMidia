@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
-using Dio.CadastroMidia.Classes;
-using Dio.CadastroMidia.Classes.Util;
+using Dio.CadastroMidia.Services;
+using Dio.CadastroMidia.Helpers;
 using Dio.CadastroMidia.Enum;
 
 namespace Dio.CadastroMidia

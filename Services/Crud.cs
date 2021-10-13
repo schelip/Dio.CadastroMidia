@@ -1,10 +1,11 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
-using Dio.CadastroMidia.Classes.Util;
+using Dio.CadastroMidia.DataRepository;
+using Dio.CadastroMidia.Helpers;
 using Dio.CadastroMidia.Interfaces;
 
-namespace Dio.CadastroMidia.Classes
+namespace Dio.CadastroMidia.Services
 {
     public abstract class Crud<T> : ICrud<T> where T: MidiaEntidadeBase
     {

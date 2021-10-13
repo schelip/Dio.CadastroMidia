@@ -1,4 +1,4 @@
-namespace Dio.CadastroMidia
+namespace Dio.CadastroMidia.DataRepository
 {
     public abstract class EntidadeBase
     {

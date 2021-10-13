@@ -1,7 +1,8 @@
 using System;
+using Dio.CadastroMidia.DataRepository;
 using Dio.CadastroMidia.Enum;
 
-namespace Dio.CadastroMidia.Classes
+namespace Dio.CadastroMidia.DataClasses
 {
     public class Filme : MidiaEntidadeBase
     {

@@ -1,7 +1,8 @@
 using System;
+using Dio.CadastroMidia.DataClasses;
 using Dio.CadastroMidia.Enum;
 
-namespace Dio.CadastroMidia.Classes
+namespace Dio.CadastroMidia.Services
 {
     public class FilmeCrud : Crud<Filme>
     {          

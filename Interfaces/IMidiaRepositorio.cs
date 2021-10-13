@@ -1,5 +1,5 @@
 using System.Reflection;
-using Dio.CadastroMidia.Classes;
+using Dio.CadastroMidia.DataRepository;
 
 namespace Dio.CadastroMidia.Interfaces
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Dio.CadastroMidia.Classes.Util
+namespace Dio.CadastroMidia.Helpers
 {
     public static class Extensions
     {

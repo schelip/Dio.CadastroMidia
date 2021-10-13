@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Dio.CadastroMidia.Enum;
 
-namespace Dio.CadastroMidia.Classes
+namespace Dio.CadastroMidia.DataRepository
 {
     public abstract class MidiaEntidadeBase : EntidadeBase
     {
