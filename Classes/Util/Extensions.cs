@@ -10,5 +10,15 @@ namespace Dio.CadastroMidia.Classes.Util
             Array.Copy(array, offset, result, 0, length);
             return result;
         }
+
+        public static object InvocarMetodo(object obj, string name)
+        {
+            return obj.GetType().GetMethod(name).Invoke(obj, null);
+        }
+
+        public static object InvocarMetodo(object obj, string name, params object[] parameters)
+        {
+            return obj.GetType().GetMethod(name).Invoke(obj, parameters);
+        }
     }
 }
