@@ -1,4 +1,3 @@
-using System;
 using Dio.CadastroMidia.Classes;
 
 namespace Dio.CadastroMidia.Interfaces

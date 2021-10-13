@@ -9,6 +9,7 @@ namespace Dio.CadastroMidia
     class Program
     {
 		private static SerieCrud SerieCrud { get; set; } = new SerieCrud();
+		private static FilmeCrud FilmeCrud { get; set; } = new FilmeCrud();
 
         // Main
         static void Main(string[] args)
