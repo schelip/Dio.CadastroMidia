@@ -1,10 +1,12 @@
 using System;
+using System.Drawing;
 using System.Runtime.Serialization;
 using Dio.CadastroMidia.Enum;
 
 namespace Dio.CadastroMidia.DataRepository
 {
     [DataContract]
+    [KnownType(typeof(System.Drawing.Bitmap))]
     public abstract class MidiaEntidadeBase : EntidadeBase
     {
         [DataMember]
@@ -15,14 +17,17 @@ namespace Dio.CadastroMidia.DataRepository
 		public string Descricao { get; set; }
         [DataMember]
 		public int Ano { get; set; }
+        [DataMember]
+        public Image Imagem { get; set; } = null;
 
-        protected MidiaEntidadeBase(int id, Genero genero, string titulo, string descricao, int ano)
+        protected MidiaEntidadeBase(int id, Genero genero, string titulo, string descricao, int ano, Image imagem)
 		{
 			this.Id = id;
 			this.Genero = genero;
 			this.Titulo = titulo;
 			this.Descricao = descricao;
 			this.Ano = ano;
+            this.Imagem = imagem;
             this.Excluido = false;
 		}
 
@@ -40,6 +45,10 @@ namespace Dio.CadastroMidia.DataRepository
 
         public void Excluir() {
             this.Excluido = true;
+        }
+
+        public bool temImagem() {
+            return Imagem == null;
         }
     }
 }
