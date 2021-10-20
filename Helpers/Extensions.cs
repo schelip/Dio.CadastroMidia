@@ -15,6 +15,17 @@ namespace Dio.CadastroMidia.Helpers
             return result;
         }
 
+		public static void Lista(this Type type)
+		{
+			if (!type.IsEnum)
+				throw new ArgumentException();
+			
+			foreach (int value in System.Enum.GetValues(type))
+			{
+				Console.WriteLine("{0}-{1}", value, System.Enum.GetName(type, value));
+			}
+		}
+
         public static object InvocarMetodo(object obj, string name)
         {
             return obj.GetType().GetMethod(name).Invoke(obj, null);
