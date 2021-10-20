@@ -1,17 +1,13 @@
+using System.Runtime.Serialization;
+
 namespace Dio.CadastroMidia.DataRepository
 {
+    [DataContract]
     public abstract class EntidadeBase
     {
-        protected int Id { get; set; }
-        protected bool Excluido { get; set; }
-
-        public int retornaId()
-		{
-			return this.Id;
-		}
-        public bool retornaExcluido()
-		{
-			return this.Excluido;
-		}
+        [DataMember]
+        public int Id { get; protected set; }
+        [DataMember]
+        public bool Excluido { get; protected set; }
     }
 }

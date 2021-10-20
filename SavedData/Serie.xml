@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfSerie xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataClasses">
+  <Serie>
+    <Excluido xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataRepository">false</Excluido>
+    <Id xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataRepository">0</Id>
+    <Ano xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataRepository">2008</Ano>
+    <Descricao xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataRepository">Hospital</Descricao>
+    <Genero xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataRepository">Drama</Genero>
+    <Titulo xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataRepository">Dr House</Titulo>
+    <Episodios>200</Episodios>
+    <Temporadas>8</Temporadas>
+  </Serie>
+</ArrayOfSerie>

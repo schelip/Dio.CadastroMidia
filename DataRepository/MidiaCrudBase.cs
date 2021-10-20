@@ -1,17 +1,15 @@
 using System;
 using System.Reflection;
-using System.Collections.Generic;
-using Dio.CadastroMidia.DataRepository;
 using Dio.CadastroMidia.Helpers;
 using Dio.CadastroMidia.Interfaces;
 
-namespace Dio.CadastroMidia.Services
+namespace Dio.CadastroMidia.DataRepository
 {
-    public abstract class Crud<T> : ICrud<T> where T: MidiaEntidadeBase
+    public abstract class MidiaCrudBase<T> : ICrud<T> where T: MidiaEntidadeBase
     {
-        protected static MidiaRepositorio<T> _repositorio = new MidiaRepositorio<T>();
-        public MidiaRepositorio<T> repositorio { get => _repositorio; }
-      
+		protected MidiaRepositorio<T> s_repositorio = new MidiaRepositorio<T>();
+		public MidiaRepositorio<T> Repositorio { get => s_repositorio; }
+
         public string InitCrud()
 		{
 			while (true)
@@ -53,34 +51,32 @@ namespace Dio.CadastroMidia.Services
 		{
 			Console.WriteLine("Inserindo novo registro");
 			
-			_repositorio.Insere(Novo(-1));
+			s_repositorio.Insere(Novo(-1));
 		}
        
         public void Listar()
 		{
 			Console.WriteLine("Listando registros");
 
-			List<T> lista = _repositorio.Lista();
-
-			if (lista.Count == 0)
+			if (s_repositorio.Lista.Count == 0)
 			{
 				Console.WriteLine("Nada cadastrado.");
 				return;
 			}
 
-			foreach (T midia in lista)
+			foreach (T midia in s_repositorio.Lista)
 			{
-                bool excluido = midia.retornaExcluido();
+                bool excluido = midia.Excluido;
                 
-				Console.WriteLine("#ID {0}: - {1} {2}", midia.retornaId(), midia.retornaTitulo(), (excluido ? "*Excluído*" : ""));
+				Console.WriteLine("#ID {0}: - {1} {2}", midia.Id, midia.Titulo, (excluido ? "*Excluído*" : ""));
 			}
 		}
        
         public void Atualizar()
         {
             int id = ObterId();
-			T midia = _repositorio.RetornaPorId(ObterId());
-			PropertyInfo[] atts = midia.GetType().GetProperties(BindingFlags.NonPublic|BindingFlags.Instance);
+			T midia = s_repositorio.RetornaPorId(ObterId());
+			PropertyInfo[] atts = midia.GetType().GetProperties();
 			atts = atts.SubArray(0, atts.Length - 2);
 
 			int i = 0;
@@ -96,7 +92,7 @@ namespace Dio.CadastroMidia.Services
 			
 			if (entrada == "T")
 			{
-				_repositorio.Substitui(id, Novo(id));
+				s_repositorio.Substitui(id, Novo(id));
 				return;
 			}
 
@@ -104,17 +100,17 @@ namespace Dio.CadastroMidia.Services
 
 			Console.Write("Informe o novo valor desejado: ");
 			string valor = Console.ReadLine();
-			_repositorio.Atualiza(id, atts[indiceAtributo], valor, midia);
+			s_repositorio.Atualiza(id, atts[indiceAtributo], valor, midia);
 		}
         
         public void Excluir()
 		{
-			_repositorio.Exclui(ObterId());
+			s_repositorio.Exclui(ObterId());
 		}
         
         public void Visualizar()
 		{
-			T midia = _repositorio.RetornaPorId(ObterId());
+			T midia = s_repositorio.RetornaPorId(ObterId());
 
 			Console.WriteLine(midia);
 		}
@@ -136,6 +132,7 @@ namespace Dio.CadastroMidia.Services
 
 			string opcaoUsuario = Console.ReadLine().ToUpper();
 			Console.WriteLine();
+
 			return opcaoUsuario;
 		}
 

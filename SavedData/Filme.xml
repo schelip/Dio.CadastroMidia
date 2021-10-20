@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfFilme xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataClasses">
+  <Filme>
+    <Excluido xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataRepository">false</Excluido>
+    <Id xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataRepository">0</Id>
+    <Ano xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataRepository">1950</Ano>
+    <Descricao xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataRepository">Clint Eastwood</Descricao>
+    <Genero xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataRepository">Faroeste</Genero>
+    <Titulo xmlns="http://schemas.datacontract.org/2004/07/Dio.CadastroMidia.DataRepository">Por um punhado de dólares</Titulo>
+    <Duracao>90</Duracao>
+  </Filme>
+</ArrayOfFilme>

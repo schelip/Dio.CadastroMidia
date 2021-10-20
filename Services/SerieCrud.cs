@@ -1,10 +1,11 @@
 using System;
 using Dio.CadastroMidia.DataClasses;
+using Dio.CadastroMidia.DataRepository;
 using Dio.CadastroMidia.Enum;
 
 namespace Dio.CadastroMidia.Services
 {
-    public class SerieCrud : Crud<Serie>
+    public class SerieCrud : MidiaCrudBase<Serie>
     {
         protected override Serie Novo(int id) 
 		{
@@ -30,7 +31,7 @@ namespace Dio.CadastroMidia.Services
 			Console.Write("Digite o Número de Temporadas: ");
 			int.TryParse(Console.ReadLine(), out int entradaTemporadas);
 
-			return new Serie(id: (id == -1) ? _repositorio.ProximoId() : id,
+			return new Serie(id: (id == -1) ? s_repositorio.ProximoId() : id,
 							 genero: (Genero) entradaGenero,
 							 titulo: entradaTitulo,
 							 ano: entradaAno,
