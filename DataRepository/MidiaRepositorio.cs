@@ -42,7 +42,8 @@ namespace Dio.CadastroMidia.DataRepository
 		{
 			try
 			{
-				att.SetValue(midia, valor);
+				dynamic novo = Convert.ChangeType(valor, att.PropertyType);
+				att.SetValue(midia, novo);
 			}
 			catch (Exception e)
 			{

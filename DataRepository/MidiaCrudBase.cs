@@ -75,7 +75,7 @@ namespace Dio.CadastroMidia.DataRepository
         public void Atualizar()
         {
             int id = ObterId();
-			T midia = s_repositorio.RetornaPorId(ObterId());
+			T midia = s_repositorio.RetornaPorId(id);
 			PropertyInfo[] atts = midia.GetType().GetProperties();
 			atts = atts.SubArray(0, atts.Length - 2);
 
