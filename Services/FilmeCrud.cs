@@ -1,7 +1,9 @@
 using System;
+using System.Drawing;
 using Dio.CadastroMidia.DataClasses;
 using Dio.CadastroMidia.DataRepository;
 using Dio.CadastroMidia.Enum;
+using Dio.CadastroMidia.Helpers;
 
 namespace Dio.CadastroMidia.Services
 {
@@ -9,10 +11,7 @@ namespace Dio.CadastroMidia.Services
     {          
         protected override Filme Novo(int id) 
 		{
-			foreach (int i in System.Enum.GetValues(typeof(Genero)))
-			{
-				Console.WriteLine("{0}-{1}", i, System.Enum.GetName(typeof(Genero), i));
-			}
+			typeof(Genero).Lista();
 			Console.Write("Digite o gênero entre as opções acima: ");
 			int.TryParse(Console.ReadLine(), out int entradaGenero);
 
@@ -28,12 +27,20 @@ namespace Dio.CadastroMidia.Services
 			Console.Write("Digite a duração em minutos: ");
 			int.TryParse(Console.ReadLine(), out int entradaDuracao);
 
+			Image entradaImagem = null;
+			if (Program.UsarImagens)
+			{
+				Console.Write("Digite o caminho para a Imagem do poster (<ENTER> para vazio): ");
+				entradaImagem = Image.FromFile(Console.ReadLine());
+			}
+
 			return new Filme(id: (id == -1) ? s_repositorio.ProximoId() : id,
 							 genero: (Genero) entradaGenero,
 							 titulo: entradaTitulo,
 							 ano: entradaAno,
 							 descricao: entradaDescricao,
-							 duracao: entradaDuracao);
+							 duracao: entradaDuracao,
+							 imagem: entradaImagem);
 		}
     }
 }

@@ -6,6 +6,7 @@ using Dio.CadastroMidia.Enum;
 namespace Dio.CadastroMidia.DataRepository
 {
     [DataContract]
+    [KnownType(typeof(System.Drawing.Bitmap))]
     public abstract class MidiaEntidadeBase : EntidadeBase
     {
         [DataMember]

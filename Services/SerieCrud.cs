@@ -1,6 +1,8 @@
 using System;
+using System.Drawing;
 using Dio.CadastroMidia.DataClasses;
 using Dio.CadastroMidia.DataRepository;
+using Dio.CadastroMidia.Helpers;
 using Dio.CadastroMidia.Enum;
 
 namespace Dio.CadastroMidia.Services
@@ -9,10 +11,7 @@ namespace Dio.CadastroMidia.Services
     {
         protected override Serie Novo(int id) 
 		{
-			foreach (int i in System.Enum.GetValues(typeof(Genero)))
-			{
-				Console.WriteLine("{0}-{1}", i, System.Enum.GetName(typeof(Genero), i));
-			}
+			typeof(Genero).Lista();
 			Console.Write("Digite o gênero entre as opções acima: ");
 			int.TryParse(Console.ReadLine(), out int entradaGenero);
 
@@ -31,13 +30,21 @@ namespace Dio.CadastroMidia.Services
 			Console.Write("Digite o Número de Temporadas: ");
 			int.TryParse(Console.ReadLine(), out int entradaTemporadas);
 
+			Image entradaImagem = null;
+			if (Program.UsarImagens)
+			{
+				Console.Write("Digite o caminho para a Imagem de capa (<ENTER> para vazio): ");
+				entradaImagem = Image.FromFile(Console.ReadLine());
+			}
+
 			return new Serie(id: (id == -1) ? s_repositorio.ProximoId() : id,
 							 genero: (Genero) entradaGenero,
 							 titulo: entradaTitulo,
 							 ano: entradaAno,
 							 descricao: entradaDescricao,
 							 episodios: entradaEpisodios,
-							 temporadas: entradaTemporadas);
+							 temporadas: entradaTemporadas,
+							 imagem: entradaImagem);
 		}
     }
 }
