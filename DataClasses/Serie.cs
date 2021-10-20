@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Runtime.Serialization;
 using Dio.CadastroMidia.DataRepository;
 using Dio.CadastroMidia.Enum;
@@ -13,8 +14,8 @@ namespace Dio.CadastroMidia.DataClasses
 		[DataMember]
 		public int Temporadas { get; set; }
 
-		public Serie(int id, Genero genero, string titulo, string descricao, int ano, int episodios, int temporadas)
-		: base(id, genero, titulo, descricao, ano)
+		public Serie(int id, Genero genero, string titulo, string descricao, int ano, int episodios, int temporadas, Image imagem)
+		: base(id, genero, titulo, descricao, ano, imagem)
 		{
 			this.Episodios = episodios;
 			this.Temporadas = temporadas;
