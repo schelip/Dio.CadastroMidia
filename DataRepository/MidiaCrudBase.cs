@@ -136,9 +136,9 @@ namespace Dio.CadastroMidia.DataRepository
 
 			Console.WriteLine(midia);
 
-			Console.WriteLine("Preview da imagem de capa: ");
 			if (Program.UsarImagens)
 			{
+				Console.WriteLine("Preview da imagem de capa: ");
 				Image thumb = Drawing.ToThubmnail(midia.Imagem, 45);
 				Drawing.ImprimeImagem(thumb);
 			}
