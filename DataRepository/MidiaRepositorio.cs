@@ -1,44 +1,44 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.Serialization;
 using Dio.CadastroMidia.Interfaces;
 
 namespace Dio.CadastroMidia.DataRepository
 {
-    public class MidiaRepositorio<T> : IMidiaRepositorio<T> where T: MidiaEntidadeBase
+	[Serializable()]
+    public class MidiaRepositorio<T> : IRepositorio<T> where T: MidiaEntidadeBase
     {
-        private List<T> lista = new List<T>();
+		[DataMember]
+		public List<T> Lista { get; private set; } = new List<T>();
+		public string Key { get; private set; } = typeof(T).Name;
+
 		public void Substitui(int id, T objeto)
 		{
-			lista[id] = objeto;
+			Lista[id] = objeto;
 		}
 
 		public void Exclui(int id)
 		{
-			lista[id].Excluir();
+			Lista[id].Excluir();
 		}
 
 		public void Insere(T objeto)
 		{
-			lista.Add(objeto);
-		}
-
-		public List<T> Lista()
-		{
-			return lista;
+			Lista.Add(objeto);
 		}
 
 		public int ProximoId()
 		{
-			return lista.Count;
+			return Lista.Count;
 		}
 
 		public T RetornaPorId(int id)
 		{
-			return lista[id];
+			return Lista[id];
 		}
 
-		public void Atualiza(int id, PropertyInfo att, object valor, MidiaEntidadeBase midia)
+		public void Atualiza(int id, PropertyInfo att, object valor, T midia)
 		{
 			try
 			{
@@ -48,6 +48,11 @@ namespace Dio.CadastroMidia.DataRepository
 			{
 				Console.WriteLine(e.Message);
 			}
+		}
+
+		public void Carregar(List<T> novaLista)
+		{
+			Lista = novaLista;
 		}
     }
 }

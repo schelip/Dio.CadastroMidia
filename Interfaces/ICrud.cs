@@ -4,7 +4,7 @@ namespace Dio.CadastroMidia.Interfaces
 {
     public interface ICrud<T> where T : MidiaEntidadeBase
     {
-        MidiaRepositorio<T> repositorio { get; }
+        MidiaRepositorio<T> Repositorio { get; }
         string InitCrud();
         void Inserir();
         void Listar();

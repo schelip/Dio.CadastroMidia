@@ -1,18 +1,21 @@
 using System;
-using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Dio.CadastroMidia.Enum;
 
 namespace Dio.CadastroMidia.DataRepository
 {
+    [DataContract]
     public abstract class MidiaEntidadeBase : EntidadeBase
     {
-        // Atributos
-        protected Genero Genero { get; set; }
-		protected string Titulo { get; set; }
-		protected string Descricao { get; set; }
-		protected int Ano { get; set; }
+        [DataMember]
+        public Genero Genero { get; set; }
+        [DataMember]
+		public string Titulo { get; set; }
+        [DataMember]
+		public string Descricao { get; set; }
+        [DataMember]
+		public int Ano { get; set; }
 
-        // Métodos
         protected MidiaEntidadeBase(int id, Genero genero, string titulo, string descricao, int ano)
 		{
 			this.Id = id;
@@ -33,11 +36,6 @@ namespace Dio.CadastroMidia.DataRepository
             retorno += "Descrição: " + this.Descricao + Environment.NewLine;
             retorno += "Ano de Início: " + this.Ano + Environment.NewLine;
 			return retorno;
-		}
-
-        public string retornaTitulo()
-		{
-			return this.Titulo;
 		}
 
         public void Excluir() {

@@ -1,16 +1,18 @@
 using System;
+using System.Runtime.Serialization;
 using Dio.CadastroMidia.DataRepository;
 using Dio.CadastroMidia.Enum;
 
 namespace Dio.CadastroMidia.DataClasses
 {
+	[DataContract]
     public class Serie : MidiaEntidadeBase
     {
-        // Atributos
-		private int Episodios { get; set; }
-		private int Temporadas { get; set; }
+		[DataMember]
+		public int Episodios { get; set; }
+		[DataMember]
+		public int Temporadas { get; set; }
 
-        // Métodos
 		public Serie(int id, Genero genero, string titulo, string descricao, int ano, int episodios, int temporadas)
 		: base(id, genero, titulo, descricao, ano)
 		{

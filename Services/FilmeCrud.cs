@@ -1,10 +1,11 @@
 using System;
 using Dio.CadastroMidia.DataClasses;
+using Dio.CadastroMidia.DataRepository;
 using Dio.CadastroMidia.Enum;
 
 namespace Dio.CadastroMidia.Services
 {
-    public class FilmeCrud : Crud<Filme>
+    public class FilmeCrud : MidiaCrudBase<Filme>
     {          
         protected override Filme Novo(int id) 
 		{
@@ -27,7 +28,7 @@ namespace Dio.CadastroMidia.Services
 			Console.Write("Digite a duração em minutos: ");
 			int.TryParse(Console.ReadLine(), out int entradaDuracao);
 
-			return new Filme(id: (id == -1) ? _repositorio.ProximoId() : id,
+			return new Filme(id: (id == -1) ? s_repositorio.ProximoId() : id,
 							 genero: (Genero) entradaGenero,
 							 titulo: entradaTitulo,
 							 ano: entradaAno,
