@@ -43,10 +43,6 @@ namespace Dio.CadastroMidia.DataRepository
 			return retorno;
 		}
 
-        public void Excluir() {
-            this.Excluido = true;
-        }
-
         public bool temImagem() {
             return Imagem == null;
         }

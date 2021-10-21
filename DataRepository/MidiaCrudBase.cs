@@ -33,9 +33,12 @@ namespace Dio.CadastroMidia.DataRepository
 						Excluir();
 						break;
 					case "5":
-						Visualizar();
+						Restaurar();
 						break;
 					case "6":
+						Visualizar();
+						break;
+					case "7":
 						if (Program.UsarImagens)
 							VisualizarImagem();
 						else goto default;
@@ -130,6 +133,11 @@ namespace Dio.CadastroMidia.DataRepository
 		{
 			s_repositorio.Exclui(ObterId());
 		}
+
+		public void Restaurar()
+		{
+			s_repositorio.Restaura(ObterId());
+		}
         
         public void Visualizar()
 		{
@@ -159,6 +167,11 @@ namespace Dio.CadastroMidia.DataRepository
 			Drawing.ImprimeImagem(thumb);
 		}
 
+		public void LimpaExcluidos()
+		{
+			s_repositorio.Carregar(s_repositorio.Lista.Where(m => !m.Excluido).ToList());
+		}
+
 		// Util
         private static string ObterOperacao()
 		{
@@ -168,9 +181,10 @@ namespace Dio.CadastroMidia.DataRepository
 			Console.WriteLine("2- Inserir");
 			Console.WriteLine("3- Atualizar");
 			Console.WriteLine("4- Excluir");
-			Console.WriteLine("5- Visualizar");
+			Console.WriteLine("5- Restaurar");
+			Console.WriteLine("6- Visualizar");
 			if (Program.UsarImagens)
-				Console.WriteLine("6- Visualizar imagem de capa");
+				Console.WriteLine("7- Visualizar imagem de capa");
 			Console.WriteLine("C- Limpar Tela");
 			Console.WriteLine("T- Trocar tipo de midia (Atual: {0})", typeof(T).Name);
 			Console.WriteLine("X- Sair");
