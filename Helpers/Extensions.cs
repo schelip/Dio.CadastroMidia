@@ -47,7 +47,7 @@ namespace Dio.CadastroMidia.Helpers
 			Console.WriteLine($"Salvando {filename} ...");
 			try
 			{
-				using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+				using (FileStream fs = new FileStream(path, FileMode.Create))
 				using (XmlWriter writer = XmlWriter.Create(fs, new XmlWriterSettings{Indent = true}))
 				{
 					DataContractSerializer serializer = new DataContractSerializer(obj.GetType());
