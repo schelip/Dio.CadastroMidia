@@ -34,7 +34,8 @@ namespace Dio.CadastroMidia.Services
 			if (Program.UsarImagens)
 			{
 				Console.Write("Digite o caminho para a Imagem de capa (<ENTER> para vazio): ");
-				entradaImagem = Image.FromFile(Console.ReadLine());
+				string entrada = Console.ReadLine();
+				entradaImagem = entrada != ("") ? Image.FromFile(entrada) : null;
 			}
 
 			return new Serie(id: (id == -1) ? s_repositorio.ProximoId() : id,

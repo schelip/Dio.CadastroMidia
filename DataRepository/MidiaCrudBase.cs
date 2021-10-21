@@ -84,8 +84,8 @@ namespace Dio.CadastroMidia.DataRepository
             int id = ObterId();
 			T midia = s_repositorio.RetornaPorId(id);
 			PropertyInfo[] atts = midia.GetType().GetProperties();
-			atts = ((PropertyInfo[])atts
-					.Where(att => att.GetType() != typeof(Image)))
+			atts = atts.Where(att => att.Name != "Imagem")
+					.ToArray()
 					.SubArray(0, atts.Length - 2);
 
 			int i = 0;
@@ -94,7 +94,7 @@ namespace Dio.CadastroMidia.DataRepository
 				Console.WriteLine("{0} - {1}: {2}", i++, att.Name, att.GetValue(midia, null));
 			}
 			if (Program.UsarImagens)
-				Console.WriteLine("{0}- Atualizar imagem", i);
+				Console.WriteLine("{0} - Atualizar imagem", i);
 			Console.WriteLine("T - TODOS OS CAMPOS");
 			
 			Console.Write("Informe qual campo deseja atualizar entre as opções acima: ");
@@ -107,11 +107,12 @@ namespace Dio.CadastroMidia.DataRepository
 				return;
 			}
 
-			if (entrada == "6")
+			if (entrada == i.ToString())
 			{
-				Console.WriteLine("Informe o caminho para a nova imagem:");
+				Console.Write("Informe o caminho para a nova imagem: ");
 				string caminho = Console.ReadLine();
 				midia.Imagem = Image.FromFile(caminho);
+				return;
 			}
 
 			int.TryParse(entrada, out int indiceAtributo);
@@ -136,7 +137,7 @@ namespace Dio.CadastroMidia.DataRepository
 
 			Console.WriteLine(midia);
 
-			if (Program.UsarImagens)
+			if (Program.UsarImagens && midia.Imagem != null)
 			{
 				Console.WriteLine("Preview da imagem de capa: ");
 				Image thumb = Drawing.ToThubmnail(midia.Imagem, 45);
@@ -147,6 +148,12 @@ namespace Dio.CadastroMidia.DataRepository
 		public void VisualizarImagem()
 		{
 			T midia = s_repositorio.RetornaPorId(ObterId());
+
+			if (midia.Imagem == null)
+			{
+				Console.WriteLine("Nenhuma imagem cadastrada");
+				return;
+			}
 
 			Image thumb = Drawing.ToThubmnail(midia.Imagem, 100);
 			Drawing.ImprimeImagem(thumb);
