@@ -117,9 +117,10 @@ namespace Dio.CadastroMidia
 			{
 				string filename = dir + key + ".xml";
 				dynamic crud = s_cruds[key];
+				crud.LimpaExcluidos();
 				dynamic list = crud.Repositorio.Lista;
 				if (list.Count != 0)
-					Extensions.Salvar(filename, crud.Repositorio.Lista);
+					Extensions.Salvar(filename, list);
 			}
 		}
 	}

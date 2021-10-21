@@ -10,6 +10,8 @@ namespace Dio.CadastroMidia.Interfaces
         void Listar();
         void Atualizar();
         void Excluir();
+        void Restaurar();
+        void LimpaExcluidos();
         void Visualizar();
     }
 }

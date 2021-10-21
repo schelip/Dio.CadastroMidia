@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using Dio.CadastroMidia.Interfaces;
@@ -23,6 +24,11 @@ namespace Dio.CadastroMidia.DataRepository
 			Lista[id].Excluir();
 		}
 
+		public void Restaura(int id)
+		{
+			Lista[id].Restaurar();
+		}
+
 		public void Insere(T objeto)
 		{
 			Lista.Add(objeto);
@@ -30,7 +36,7 @@ namespace Dio.CadastroMidia.DataRepository
 
 		public int ProximoId()
 		{
-			return Lista.Count;
+			return Lista.Last().Id  + 1;
 		}
 
 		public T RetornaPorId(int id)
