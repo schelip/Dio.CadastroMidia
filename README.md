@@ -1,8 +1,9 @@
 # Digital Innovation One - Prática .NET
 
-## Criando uma APP simples de cadastro
+## Criando um APP simples de cadastro de mídia
 
 Projeto desenvolvido durante o bootcamp TakeBlip Fullstack Developer #2 na plataforma DIO com o intuito de aplicar conceitos de POO implementando-os utilizando .NET.
+Consiste em uma CLI que permite ao usuário cadastrar, visualizar, atualizar e deletar objetos de mídia como filmes e séries.
 
 O projeto é uma expansão natural da base fornecida.
 
