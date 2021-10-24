@@ -15,8 +15,7 @@ namespace Dio.CadastroMidia
         static void Main(string[] args)
         {
 			Console.WriteLine();
-			Console.WriteLine("DIO Midia a seu dispor!!!");
-
+			ImprimirCabecalho();
 			ObterCruds();
 			Carregar();
 
@@ -34,12 +33,21 @@ namespace Dio.CadastroMidia
 				}
 
 				int.TryParse(opcaoUsuario, out int opcaoMidia);
-				var crud = s_cruds[(System.Enum.GetName(typeof(Midia), opcaoMidia))];
+				try
+				{
+					var crud = s_cruds[(System.Enum.GetName(typeof(Midia), opcaoMidia))];
 
-				opcaoUsuario = (string)Extensions.InvocarMetodo(crud, "InitCrud");
 
-				if (opcaoUsuario == "T")
+					opcaoUsuario = (string)Extensions.InvocarMetodo(crud, "InitCrud");
+
+					if (opcaoUsuario == "T")
+						opcaoUsuario = ObterOpcaoUsuario();
+				}
+				catch (ArgumentException)
+				{
+					Console.WriteLine("Erro: Opção inválida.");
 					opcaoUsuario = ObterOpcaoUsuario();
+				}
 			}
 
 			Salvar();
@@ -49,16 +57,31 @@ namespace Dio.CadastroMidia
         }
 
 		// Util
+		public static void ImprimirCabecalho()
+		{
+			Console.Clear();
+			if (Console.WindowWidth >= 120)
+				Console.WriteLine(
+					"▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄\n"+
+					"██████████████████████░▄▄▀██▄██▀▄▄▀█████░▄▄▀█░▄▄▀█░▄▀█░▄▄▀█░▄▄█▄░▄█░▄▄▀█▀▄▄▀██░▄▀▄░██▄██░▄▀██▄██░▄▄▀████████████████████\n"+
+					"██████████████████████░██░██░▄█░██░█▀▀██░████░▀▀░█░█░█░▀▀░█▄▄▀██░██░▀▀▄█░██░██░█░█░██░▄█░█░██░▄█░▀▀░████████████████████\n"+
+					"██████████████████████░▀▀░█▄▄▄██▄▄██▄▄██░▀▀▄█▄██▄█▄▄██▄██▄█▄▄▄██▄██▄█▄▄██▄▄███░███░█▄▄▄█▄▄██▄▄▄█▄██▄████████████████████\n"+
+					"▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\n"
+				);
+			else
+				Console.WriteLine(
+					"||||| Dio.CadastroMidia ao seu dispor |||||"
+				);
+		}
+
         private static string ObterOpcaoUsuario()
-		{	
+		{
 			Console.WriteLine("\nCom qual tipo de midia deseja trabalhar?");
 
-			foreach (int i in System.Enum.GetValues(typeof(Midia))) {
-				Console.WriteLine("{0}- {1}", i, System.Enum.GetName(typeof(Midia), i));
-			}
-			Console.WriteLine($"T- Alternar impressão de imagens (Atual = {UsarImagens})");
-			Console.WriteLine("X- Sair");
-			Console.Write("Informe a opção desejada: ");
+			typeof(Midia).Lista();
+			Console.WriteLine($" T  | Alternar impressão de imagens (Atual = {UsarImagens})");
+			Console.WriteLine(" X  | Sair");
+			Console.Write("Informe a opção desejada >> ");
 			
 			return Console.ReadLine().ToUpper();
 		}
@@ -81,11 +104,15 @@ namespace Dio.CadastroMidia
 			Console.Write("Teste: ");
 			Drawing.TesteConsole();
 			Console.WriteLine("Se seu console é compatível você terá visto um conjunto de cores.");
-			Console.WriteLine("Ativar impressão de imagens? (S/N)");
+			Console.WriteLine($"É necessário uma janela com 120 colunas (Atual: {Console.WindowWidth}) ou a impressão não funcionará corretamente.");
+			Console.WriteLine("▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄");
+			Console.Write("Ativar impressão de imagens? (S/N) >> ");
 			string opcao = Console.ReadLine().ToUpper();
 			
 			if (opcao == "S")
+			{
 				UsarImagens = true;
+			}
 			else
 				UsarImagens = false;
 		}

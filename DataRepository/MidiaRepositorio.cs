@@ -51,9 +51,9 @@ namespace Dio.CadastroMidia.DataRepository
 				dynamic novo = Convert.ChangeType(valor, att.PropertyType);
 				att.SetValue(midia, novo);
 			}
-			catch (Exception e)
+			catch (ArgumentException)
 			{
-				Console.WriteLine(e.Message);
+				Console.WriteLine($"Erro ao atualizar atributo {att.Name} de tipo {att.GetType()} (Valor passado: {valor.ToString()})");
 			}
 		}
 

@@ -12,28 +12,28 @@ namespace Dio.CadastroMidia.Services
         protected override Serie Novo(int id) 
 		{
 			typeof(Genero).Lista();
-			Console.Write("Digite o gênero entre as opções acima: ");
+			Console.Write("Digite o gênero entre as opções acima >> ");
 			int.TryParse(Console.ReadLine(), out int entradaGenero);
 
-			Console.Write("Digite o Título da Série: ");
+			Console.Write("Digite o Título da Série >> ");
 			string entradaTitulo = Console.ReadLine();
 
-			Console.Write("Digite o Ano de Início da Série: ");
+			Console.Write("Digite o Ano de Início da Série >> ");
 			int.TryParse(Console.ReadLine(), out int entradaAno);
 
-			Console.Write("Digite a Descrição da Série: ");
+			Console.Write("Digite a Descrição da Série >> ");
 			string entradaDescricao = Console.ReadLine();
 
-			Console.Write("Digite o Número de Episódios: ");
+			Console.Write("Digite o Número de Episódios >> ");
 			int.TryParse(Console.ReadLine(), out int entradaEpisodios);
 
-			Console.Write("Digite o Número de Temporadas: ");
+			Console.Write("Digite o Número de Temporadas >> ");
 			int.TryParse(Console.ReadLine(), out int entradaTemporadas);
 
 			Image entradaImagem = null;
 			if (Program.UsarImagens)
 			{
-				Console.Write("Digite o caminho para a Imagem de capa (<ENTER> para vazio): ");
+				Console.Write("Digite o caminho para a Imagem de capa (<ENTER> para vazio) >> ");
 				string entrada = Console.ReadLine();
 				entradaImagem = entrada != ("") ? Image.FromFile(entrada) : null;
 			}
