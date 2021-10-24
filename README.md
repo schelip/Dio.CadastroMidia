@@ -7,11 +7,12 @@ Consiste em uma CLI que permite ao usuário cadastrar, visualizar, atualizar e d
 
 O projeto é uma expansão natural da base fornecida.
 
+- Interface refeita
 - O programa foi re-estruturado para permitir um menor custo de manutenção e atualização:
     - Esquema de herança de classes expandido para implementar maior nível de abstração dos tipos de mídia
     - Sistema de repósitorio refeito utilizando tipos genéricos
     - Implementado sistema de Crud genérico utilizando polimorfismo e reflexão
-- Adicionado suporte de um novo tipo de mídia, Filme, para exemplificação do item anterior.
+- Adicionado suporte de um novo tipo de mídia, Filme, para exemplificação dos itens anteriores.
 - Adicionadas novas propriedades para os tipos de mídia, incluíndo Imagem, que permite o armazenamento de uma imagem de capa, poster, etc. e imprime ela no console ao visualizar a mídia.
 - Adicionada funcionalidade de persistência de dados, que são gravados em formato Xml e lidos no início da execução.
 
