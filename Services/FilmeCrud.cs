@@ -12,25 +12,25 @@ namespace Dio.CadastroMidia.Services
         protected override Filme Novo(int id) 
 		{
 			typeof(Genero).Lista();
-			Console.Write("Digite o gênero entre as opções acima: ");
+			Console.Write("Digite o gênero entre as opções acima >> ");
 			int.TryParse(Console.ReadLine(), out int entradaGenero);
 
-			Console.Write("Digite o Título do Filme: ");
+			Console.Write("Digite o Título do Filme >> ");
 			string entradaTitulo = Console.ReadLine();
 
-			Console.Write("Digite o Ano de Lançamento do Filme: ");
+			Console.Write("Digite o Ano de Lançamento do Filme >> ");
 			int.TryParse(Console.ReadLine(), out int entradaAno);
 
-			Console.Write("Digite a Descrição do Filme: ");
+			Console.Write("Digite a Descrição do Filme >> ");
 			string entradaDescricao = Console.ReadLine();
 
-			Console.Write("Digite a duração em minutos: ");
+			Console.Write("Digite a duração em minutos >> ");
 			int.TryParse(Console.ReadLine(), out int entradaDuracao);
 
 			Image entradaImagem = null;
 			if (Program.UsarImagens)
 			{
-				Console.Write("Digite o caminho para a Imagem do poster (<ENTER> para vazio): ");
+				Console.Write("Digite o caminho para a Imagem do poster (<ENTER> para vazio) >> ");
 				string entrada = Console.ReadLine();
 				entradaImagem = entrada != ("") ? Image.FromFile(entrada) : null;
 			}

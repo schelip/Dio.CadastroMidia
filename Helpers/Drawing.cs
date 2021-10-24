@@ -51,6 +51,42 @@ namespace Dio.CadastroMidia.Helpers
             Console.WriteLine();
 		}
 
+		/// <summary>
+        /// Imprime imagem completa no console ao lado de um conjunto de strings
+        /// </summary>
+		public static void ImprimeImagem(Image image, string[] strings)
+		{
+			FrameDimension dimension = new FrameDimension(image.FrameDimensionsList[0]);
+			
+			image.SelectActiveFrame(dimension, 0);
+
+			if (image.Width > Console.WindowWidth - 2)
+			{
+				Console.WriteLine("Erro: A sua janela está pequena de mais para exibir essa imagem.");
+				return;
+			}
+
+			Console.WriteLine();
+			for (int h = 0; h < image.Height; h++)
+			{
+				Console.ResetColor();
+				Console.Write(' ');
+				for (int w = 0; w < image.Width; w++)
+				{
+					Color cl = ((Bitmap) image).GetPixel(w, h);
+					Console.BackgroundColor = GetNamedColor(cl);
+
+					Console.Write(' ');
+				}
+				Console.ResetColor();
+				
+				if (h < strings.Length)
+					Console.Write(" " + strings[h]);
+				Console.Write(" \n");
+			}
+            Console.WriteLine();
+		}
+
         /// <summary>
         /// Retorna a thumbnail de uma imagem
         /// </summary>
@@ -63,7 +99,8 @@ namespace Dio.CadastroMidia.Helpers
 			Bitmap bitmap = new Bitmap(image);
 
 			int ratio = image.Width / width;
-            int height = image.Height / ratio;
+            int height = image.Height / (ratio * 2); /* Multiplicar por 2 para evitar distorção
+                                                        visto que o caractere unicode é um retangulo 1x2 */
 
 			Image thumbnail = bitmap.GetThumbnailImage(width, height, callback, IntPtr.Zero);
             

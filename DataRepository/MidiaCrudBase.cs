@@ -11,14 +11,15 @@ namespace Dio.CadastroMidia.DataRepository
     {
 		protected MidiaRepositorio<T> s_repositorio = new MidiaRepositorio<T>();
 		public MidiaRepositorio<T> Repositorio { get => s_repositorio; }
+		private static string s_name = typeof(T).Name;
 
         public string InitCrud()
 		{
 			while (true)
 			{
 				Console.WriteLine();
-				
-				switch (ObterOperacao())
+				string opcao = ObterOperacao();
+				switch (opcao)
 				{
 					case "1":
 						Listar();
@@ -44,29 +45,42 @@ namespace Dio.CadastroMidia.DataRepository
 						else goto default;
 						break;
 					case "C":
-						Console.Clear();
+						Program.ImprimirCabecalho();
 						break;
 					case "T":
 						return "T";
 					case "X":
 						return "X";
-
 					default:
-						throw new ArgumentOutOfRangeException();
+						Console.WriteLine($"Erro: Opção {opcao} inválida.");
+						break;
 				}
 			}
 		}
        
         public void Inserir()
 		{
-			Console.WriteLine("Inserindo novo registro");
-			
-			s_repositorio.Insere(Novo(-1));
+			Console.WriteLine($"/// Inserindo {s_name}");
+
+			try
+			{
+				T midia = Novo(-1);
+				s_repositorio.Insere(midia);
+				Console.WriteLine($"Objeto {s_name} com ID {midia.Id} Inserido");
+			}
+			catch (Exception)
+			{
+				Console.WriteLine("Erro na criação do objeto. Tentar novamente? (S/N) >> ");
+				if (Console.ReadLine().ToUpper() == "S")
+					Novo(-1);
+				else
+					return;
+			}
 		}
        
         public void Listar()
 		{
-			Console.WriteLine("Listando registros");
+			Console.WriteLine($"/// Listando {s_name}s ");
 
 			if (s_repositorio.Lista.Count == 0)
 			{
@@ -78,14 +92,16 @@ namespace Dio.CadastroMidia.DataRepository
 			{
                 bool excluido = midia.Excluido;
                 
-				Console.WriteLine("#ID {0}: - {1} {2}", midia.Id, midia.Titulo, (excluido ? "*Excluído*" : ""));
+				Console.WriteLine("#ID {0:00} | {1} {2}", midia.Id, midia.Titulo, (excluido ? "*Excluído*" : ""));
 			}
 		}
        
         public void Atualizar()
         {
-            int id = ObterId();
-			T midia = s_repositorio.RetornaPorId(id);
+			Console.WriteLine($"/// Atualizando {s_name}");
+			
+			T midia = ObterMidia();
+
 			PropertyInfo[] atts = midia.GetType().GetProperties();
 			atts = atts.Where(att => att.Name != "Imagem")
 					.ToArray()
@@ -94,68 +110,123 @@ namespace Dio.CadastroMidia.DataRepository
 			int i = 0;
 			foreach (var att in atts)
 			{
-				Console.WriteLine("{0} - {1}: {2}", i++, att.Name, att.GetValue(midia, null));
+				Console.WriteLine(" {0:00} | {1}: {2}", i++, att.Name, att.GetValue(midia, null));
 			}
 			if (Program.UsarImagens)
-				Console.WriteLine("{0} - Atualizar imagem", i);
-			Console.WriteLine("T - TODOS OS CAMPOS");
+				Console.WriteLine(" {0:00} | Atualizar imagem", i);
+			Console.WriteLine(" T  | TODOS OS CAMPOS");
 			
-			Console.Write("Informe qual campo deseja atualizar entre as opções acima: ");
+			Console.Write("Informe qual campo deseja atualizar entre as opções acima >> ");
 			
 			string entrada = Console.ReadLine().ToUpper();
 			
 			if (entrada == "T")
 			{
-				s_repositorio.Substitui(id, Novo(id));
-				return;
+				try
+				{
+					s_repositorio.Substitui(midia.Id, Novo(midia.Id));
+					return;
+				}
+				catch (Exception)
+				{
+					Console.WriteLine("Erro na criação do objeto. Tentar novamente? (S/N) >> ");
+					if (Console.ReadLine().ToUpper() == "S")
+						s_repositorio.Substitui(midia.Id, Novo(midia.Id));
+					else
+						return;
+				}
 			}
 
 			if (entrada == i.ToString())
 			{
-				Console.Write("Informe o caminho para a nova imagem: ");
+				Console.Write("Informe o caminho para a nova imagem >> ");
 				string caminho = Console.ReadLine();
-				midia.Imagem = Image.FromFile(caminho);
+				try
+				{
+					midia.Imagem = Image.FromFile(caminho);
+				}
+				catch (Exception)
+				{
+					Console.WriteLine("Erro ao carregar a imagem");
+				}
 				return;
 			}
 
-			int.TryParse(entrada, out int indiceAtributo);
-			PropertyInfo selected = atts[indiceAtributo];
+			try
+			{
+				int.TryParse(entrada, out int indiceAtributo);
+				PropertyInfo selected = atts[indiceAtributo];
+			
+				if (selected.PropertyType.IsEnum)
+					selected.PropertyType.Lista();
 
-			if (selected.PropertyType.IsEnum)
-				selected.PropertyType.Lista();
+				Console.Write("Informe o novo valor desejado >> ");
+				string valor = Console.ReadLine();
+				s_repositorio.Atualiza(midia.Id, selected, valor, midia);
+			}
+			catch (ArgumentException)
+			{
+				Console.WriteLine("Erro: opção inválida");
+				return;
+			}
 
-			Console.Write("Informe o novo valor desejado: ");
-			string valor = Console.ReadLine();
-			s_repositorio.Atualiza(id, selected, valor, midia);
+			Console.WriteLine($"Objeto {s_name} com ID {midia.Id} Atualizado");
 		}
         
         public void Excluir()
 		{
-			s_repositorio.Exclui(ObterId());
+			Console.WriteLine($"/// Excluindo {s_name}");
+			try
+			{
+				int id = ObterId();
+				s_repositorio.Exclui(id);
+				Console.WriteLine($"Objeto {s_name} com ID {id} Excluído");
+			}
+			catch (ArgumentOutOfRangeException)
+			{
+				Console.WriteLine("Erro: ID não encontrado");
+				return;
+			}
 		}
 
 		public void Restaurar()
 		{
-			s_repositorio.Restaura(ObterId());
+			Console.WriteLine($"/// Restaurando {s_name}");
+			try
+			{
+				int id = ObterId();
+				s_repositorio.Restaura(id);
+				Console.WriteLine($"Objeto {s_name} com ID {id} Restaurado");
+			}
+			catch (ArgumentOutOfRangeException)
+			{
+				Console.WriteLine("Erro: ID não encontrado");
+				return;
+			}
 		}
         
         public void Visualizar()
 		{
-			T midia = s_repositorio.RetornaPorId(ObterId());
-
-			Console.WriteLine(midia);
+			Console.WriteLine($"/// Visualizar {s_name}:");
+			
+			T midia = ObterMidia();
+			if (midia == null) return;
 
 			if (Program.UsarImagens && midia.Imagem != null)
 			{
-				Console.WriteLine("Preview da imagem de capa: ");
-				Image thumb = Drawing.ToThubmnail(midia.Imagem, 45);
-				Drawing.ImprimeImagem(thumb);
+				string[] strings = midia.ToString().Split("\n");
+				Image thumb = Drawing.ToThubmnail(midia.Imagem, 55);
+				Drawing.ImprimeImagem(thumb, strings);
 			}
+			else Console.WriteLine(midia);
+			Console.WriteLine("<Pressione qualquer tecla para continuar>");
+			Console.ReadLine();
 		}
 
 		public void VisualizarImagem()
 		{
-			T midia = s_repositorio.RetornaPorId(ObterId());
+			T midia = ObterMidia();
+			if (midia == null) return;
 
 			if (midia.Imagem == null)
 			{
@@ -163,8 +234,10 @@ namespace Dio.CadastroMidia.DataRepository
 				return;
 			}
 
-			Image thumb = Drawing.ToThubmnail(midia.Imagem, 100);
+			Image thumb = Drawing.ToThubmnail(midia.Imagem, 118);
 			Drawing.ImprimeImagem(thumb);
+			Console.WriteLine("<Pressione qualquer tecla para continuar>");
+			Console.ReadLine();
 		}
 
 		public void LimpaExcluidos()
@@ -175,20 +248,19 @@ namespace Dio.CadastroMidia.DataRepository
 		// Util
         private static string ObterOperacao()
 		{
-			Console.WriteLine("Informe a opção desejada:");
-
-			Console.WriteLine("1- Listar");
-			Console.WriteLine("2- Inserir");
-			Console.WriteLine("3- Atualizar");
-			Console.WriteLine("4- Excluir");
-			Console.WriteLine("5- Restaurar");
-			Console.WriteLine("6- Visualizar");
+			Console.WriteLine($"Midia <{s_name}> Selecionada:");
+			Console.WriteLine(" 01 | Listar");
+			Console.WriteLine(" 02 | Inserir");
+			Console.WriteLine(" 03 | Atualizar");
+			Console.WriteLine(" 04 | Excluir");
+			Console.WriteLine(" 05 | Restaurar");
+			Console.WriteLine(" 06 | Visualizar");
 			if (Program.UsarImagens)
-				Console.WriteLine("7- Visualizar imagem de capa");
-			Console.WriteLine("C- Limpar Tela");
-			Console.WriteLine("T- Trocar tipo de midia (Atual: {0})", typeof(T).Name);
-			Console.WriteLine("X- Sair");
-			Console.WriteLine();
+				Console.WriteLine(" 07 | Visualizar imagem de capa");
+			Console.WriteLine(" C  | Limpar Tela");
+			Console.WriteLine(" T  | Trocar tipo de midia (Atual: {0})", s_name);
+			Console.WriteLine(" X  | Sair");
+			Console.Write("Informe a opção desejada >> ");
 
 			string opcaoUsuario = Console.ReadLine().ToUpper();
 			Console.WriteLine();
@@ -196,12 +268,30 @@ namespace Dio.CadastroMidia.DataRepository
 			return opcaoUsuario;
 		}
 
-        private static int ObterId()
+        private T ObterMidia()
         {
-            Console.Write("Digite o id do registro: ");
+            Console.Write("Digite o id do registro >> ");
 			int.TryParse(Console.ReadLine(), out int id);
-            return id;
+
+			T midia = null;
+			try
+			{
+				midia = s_repositorio.RetornaPorId(id);
+			}
+			catch (ArgumentOutOfRangeException)
+			{
+				Console.WriteLine("Erro: ID não encontrado");
+			}
+
+            return midia;
         }
+
+		private int ObterId()
+        {
+            Console.Write("Digite o id do registro >> ");
+			int.TryParse(Console.ReadLine(), out int id);
+			return id;
+		}
 
 		/// <param name="id">
 		///	id do objeto MidiaEntidadeBasica à ser gerado (-1 utiliza <c>ProximoId()<c>)

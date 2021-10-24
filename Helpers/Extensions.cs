@@ -22,7 +22,7 @@ namespace Dio.CadastroMidia.Helpers
 			
 			foreach (int value in System.Enum.GetValues(type))
 			{
-				Console.WriteLine("{0}-{1}", value, System.Enum.GetName(type, value));
+				Console.WriteLine(" {0:00} | {1}", value, System.Enum.GetName(type, value));
 			}
 		}
 
