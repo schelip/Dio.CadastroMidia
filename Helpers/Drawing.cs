@@ -23,10 +23,6 @@ namespace Dio.CadastroMidia.Helpers
         /// </summary>
 		public static void ImprimeImagem(Image image)
 		{
-			FrameDimension dimension = new FrameDimension(image.FrameDimensionsList[0]);
-			
-			image.SelectActiveFrame(dimension, 0);
-
 			if (image.Width > Console.WindowWidth - 2)
 			{
 				Console.WriteLine("Erro: A sua janela está pequena de mais para exibir essa imagem.");
@@ -56,10 +52,6 @@ namespace Dio.CadastroMidia.Helpers
         /// </summary>
 		public static void ImprimeImagem(Image image, string[] strings)
 		{
-			FrameDimension dimension = new FrameDimension(image.FrameDimensionsList[0]);
-			
-			image.SelectActiveFrame(dimension, 0);
-
 			if (image.Width > Console.WindowWidth - 2)
 			{
 				Console.WriteLine("Erro: A sua janela está pequena de mais para exibir essa imagem.");
