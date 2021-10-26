@@ -2,9 +2,9 @@ using Dio.CadastroMidia.DataRepository;
 
 namespace Dio.CadastroMidia.Interfaces
 {
-    public interface ICrud<T> where T : MidiaEntidadeBase
+    public interface ICrud<T> where T : EntidadeBase
     {
-        MidiaRepositorio<T> Repositorio { get; }
+        IRepositorio<T> Repositorio { get; }
         string InitCrud();
         void Inserir();
         void Listar();

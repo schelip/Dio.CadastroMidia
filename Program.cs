@@ -35,10 +35,9 @@ namespace Dio.CadastroMidia
 				int.TryParse(opcaoUsuario, out int opcaoMidia);
 				try
 				{
-					var crud = s_cruds[(System.Enum.GetName(typeof(Midia), opcaoMidia))];
+					dynamic crud = s_cruds[(System.Enum.GetName(typeof(Midia), opcaoMidia))];
 
-
-					opcaoUsuario = (string)Extensions.InvocarMetodo(crud, "InitCrud");
+					opcaoUsuario = crud.InitCrud();
 
 					if (opcaoUsuario == "T")
 						opcaoUsuario = ObterOpcaoUsuario();

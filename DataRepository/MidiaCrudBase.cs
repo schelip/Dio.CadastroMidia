@@ -10,10 +10,10 @@ namespace Dio.CadastroMidia.DataRepository
     public abstract class MidiaCrudBase<T> : ICrud<T> where T: MidiaEntidadeBase
     {
 		protected MidiaRepositorio<T> s_repositorio = new MidiaRepositorio<T>();
-		public MidiaRepositorio<T> Repositorio { get => s_repositorio; }
+		public IRepositorio<T> Repositorio { get => s_repositorio; }
 		private static string s_name = typeof(T).Name;
 
-        public string InitCrud()
+        public virtual string InitCrud()
 		{
 			while (true)
 			{
@@ -58,7 +58,7 @@ namespace Dio.CadastroMidia.DataRepository
 			}
 		}
        
-        public void Inserir()
+        public virtual void Inserir()
 		{
 			Console.WriteLine($"/// Inserindo {s_name}");
 
@@ -78,7 +78,7 @@ namespace Dio.CadastroMidia.DataRepository
 			}
 		}
        
-        public void Listar()
+        public virtual void Listar()
 		{
 			Console.WriteLine($"/// Listando {s_name}s ");
 
@@ -96,7 +96,7 @@ namespace Dio.CadastroMidia.DataRepository
 			}
 		}
        
-        public void Atualizar()
+        public virtual void Atualizar()
         {
 			Console.WriteLine($"/// Atualizando {s_name}");
 			
@@ -173,7 +173,7 @@ namespace Dio.CadastroMidia.DataRepository
 			Console.WriteLine($"Objeto {s_name} com ID {midia.Id} Atualizado");
 		}
         
-        public void Excluir()
+        public virtual void Excluir()
 		{
 			Console.WriteLine($"/// Excluindo {s_name}");
 			try
@@ -189,7 +189,7 @@ namespace Dio.CadastroMidia.DataRepository
 			}
 		}
 
-		public void Restaurar()
+		public virtual void Restaurar()
 		{
 			Console.WriteLine($"/// Restaurando {s_name}");
 			try
@@ -205,7 +205,7 @@ namespace Dio.CadastroMidia.DataRepository
 			}
 		}
         
-        public void Visualizar()
+        public virtual void Visualizar()
 		{
 			Console.WriteLine($"/// Visualizar {s_name}:");
 			
@@ -223,7 +223,7 @@ namespace Dio.CadastroMidia.DataRepository
 			Console.ReadLine();
 		}
 
-		public void VisualizarImagem()
+		public virtual void VisualizarImagem()
 		{
 			T midia = ObterMidia();
 			if (midia == null) return;
@@ -240,13 +240,13 @@ namespace Dio.CadastroMidia.DataRepository
 			Console.ReadLine();
 		}
 
-		public void LimpaExcluidos()
+		public virtual void LimpaExcluidos()
 		{
 			s_repositorio.Carregar(s_repositorio.Lista.Where(m => !m.Excluido).ToList());
 		}
 
 		// Util
-        private static string ObterOperacao()
+        protected static string ObterOperacao()
 		{
 			Console.WriteLine($"Midia <{s_name}> Selecionada:");
 			Console.WriteLine(" 01 | Listar");
@@ -268,7 +268,7 @@ namespace Dio.CadastroMidia.DataRepository
 			return opcaoUsuario;
 		}
 
-        private T ObterMidia()
+        protected T ObterMidia()
         {
             Console.Write("Digite o id do registro >> ");
 			int.TryParse(Console.ReadLine(), out int id);
@@ -286,7 +286,7 @@ namespace Dio.CadastroMidia.DataRepository
             return midia;
         }
 
-		private int ObterId()
+		protected int ObterId()
         {
             Console.Write("Digite o id do registro >> ");
 			int.TryParse(Console.ReadLine(), out int id);
