@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Text;
+using System.Collections;
 
 namespace Dio.CadastroMidia.Helpers
 {
@@ -107,31 +106,13 @@ namespace Dio.CadastroMidia.Helpers
         /// </example>
 		public static ConsoleColor GetNamedColor(Color color)
 		{
-			StringBuilder str = new StringBuilder("0000");
+			int cod =
+				8 * Convert.ToByte(color.R > 170 || color.G > 170 || color.B > 170) +
+				4 * Convert.ToByte(color.R > 85) +
+				2 * Convert.ToByte(color.G > 85) +
+				1 * Convert.ToByte(color.B > 85);
 			
-			if (color.R > 85)
-			{
-				str[1] = '1';
-				if (color.R > 170)
-					str[0] = '1';
-			}
-
-			if (color.G > 85)
-			{
-				str[2] = '1';
-				if (color.G > 170)
-					str[0] = '1';
-			}
-
-			if (color.B > 85)
-			{
-				str[3] = '1';
-				if (color.B > 170)
-					str[0] = '1';
-			}
-
-			int value = Convert.ToByte(str.ToString(), 2);
-			return (ConsoleColor)value;
+			return (ConsoleColor)cod;
 		}
 
 		/// Útil
