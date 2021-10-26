@@ -26,11 +26,6 @@ namespace Dio.CadastroMidia.Helpers
 			}
 		}
 
-        public static object InvocarMetodo(object obj, string name)
-        {
-            return obj.GetType().GetMethod(name).Invoke(obj, null);
-        }
-
         public static object InvocarMetodo(object obj, string name, params object[] parameters)
         {
             return obj.GetType().GetMethod(name).Invoke(obj, parameters);
